@@ -40,34 +40,18 @@ def getDataByURL(url):
                     u'\xa0', u' '), prices[i].replace(u'\xa0', u' ')])
             if (newDict[nameOrg] == []):
                 newDict.pop(nameOrg, None)
-<<<<<<< HEAD
 
     return dataToString(newDict)
 
 # print(list(getDataByURL("https://rif-rostov.ru/price/?arCrops%5B%5D=127").keys())[0])
 
-=======
-            
-    return dataToString(newDict)
->>>>>>> algorithm
 
 def dataToString(dict):
     temp_str = ""
     for (keys, values) in dict.items():
         for value in values:
-<<<<<<< HEAD
-            temp_str = "<b>" + keys + " - " + \
+            temp_str += "<b>" + keys + " - " + \
                 value[0] + " - " + value[2] + "</b>" + "\n"
-            temp_str += value[1]
-            data.append(temp_str)
-
-    return data
-=======
-            temp_str += "<b>" + keys + " - " + value[0] + " - " + value[2] + "</b>" + "\n"
             temp_str += value[1] + "\n\n"
 
     return temp_str
-    
-    
-print(getDataByURL("https://rif-rostov.ru/price/?arCrops%5B%5D=127"))
->>>>>>> algorithm
