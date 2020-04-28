@@ -40,10 +40,10 @@ def query_handler(call):
         callback_query_id=call.id, text='Ожидайте идёт подготовка цен!')
     if call.data == 'Ячмень':
         bot.send_message(call.message.chat.id,
-                         getDataByURL(config.filter_params_dict[call.data]), parse_mode='HTML', reply_markup=start)
+                         getDataByURL(config.filter_params_dict[call.data], call.data), parse_mode='HTML', reply_markup=start)
     elif call.data == 'Пшеница':
         bot.send_message(call.message.chat.id,
-                         getDataByURL(config.filter_params_dict[call.data]), parse_mode='HTML', reply_markup=start)
+                         getDataByURL(config.filter_params_dict[call.data], call.data), parse_mode='HTML', reply_markup=start)
     elif call.data == '5':
         bot.send_message(call.message.chat.id, 'New message')
     elif call.data == '6':

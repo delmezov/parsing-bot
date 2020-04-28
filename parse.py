@@ -2,6 +2,7 @@ from bs4 import BeautifulSoup
 import requests
 import csv
 import ssl
+import re
 
 
 def get_html(url):
@@ -10,7 +11,7 @@ def get_html(url):
     return r.text
 
 
-def getDataByURL(url):
+def getDataByURL(url, product_name):
     text = get_html(url)
     soup = BeautifulSoup(text, 'lxml')
 
@@ -41,17 +42,17 @@ def getDataByURL(url):
             if (newDict[nameOrg] == []):
                 newDict.pop(nameOrg, None)
 
-    return dataToString(newDict)
+    return dataToString(newDict, product_name)
 
-# print(list(getDataByURL("https://rif-rostov.ru/price/?arCrops%5B%5D=127").keys())[0])
-
-
-def dataToString(dict):
+def dataToString(dict, product_name):
     temp_str = ""
     for (keys, values) in dict.items():
         for value in values:
             temp_str += "<b>" + keys + " - " + \
                 value[0] + " - " + value[2] + "</b>" + "\n"
-            temp_str += value[1] + "\n\n"
-
+            if product_name == "Пшеница":
+                buf = re.findall(r'[п][р][о][т][е][и][н][ ][≥][ ][ ][0-9]{2}[,][0-9]', value[1])
+                temp_str += "".join(buf) + "\n\n"
+            else:
+                temp_str += value[1] + "\n\n"
     return temp_str
