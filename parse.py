@@ -42,19 +42,14 @@ def getDataByURL(url):
             
     return dataToString(newDict)
 
-#print(list(getDataByURL("https://rif-rostov.ru/price/?arCrops%5B%5D=127").keys())[0])
-
-
-
 def dataToString(dict):
-    data = []
     temp_str = ""
     for (keys,values) in dict.items():
         for value in values:
-            temp_str = "<b>" + keys + " - " + value[0] + " - " + value[2] + "</b>" + "\n"
-            temp_str += value[1]
-            data.append(temp_str)
+            temp_str += "<b>" + keys + " - " + value[0] + " - " + value[2] + "</b>" + "\n"
+            temp_str += value[1] + "\n\n"
 
-    return data
+    return temp_str
     
     
+print(getDataByURL("https://rif-rostov.ru/price/?arCrops%5B%5D=127"))
