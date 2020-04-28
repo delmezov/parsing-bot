@@ -43,7 +43,8 @@ def query_handler(call):
     if call.data == '3':
         bot.send_message(call.message.chat.id, 'New message')
     elif call.data == '4':
-        bot.send_message(call.message.chat.id, 'New message')
+        bot.send_message(call.message.chat.id,
+                         getDataByURL(web), parse_mode='HTML')
     elif call.data == '5':
         bot.send_message(call.message.chat.id, 'New message')
     elif call.data == '6':
