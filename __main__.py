@@ -3,6 +3,7 @@ import re
 import sys
 import config
 import datetime
+from parse import getDataByURL
 from telebot import types
 from telebot import apihelper
 
@@ -10,6 +11,8 @@ bot = telebot.TeleBot(config.token)
 now = datetime.datetime.now()
 
 print("Connected!")
+
+web = 'https://rif-rostov.ru/price/?arCrops%5B%5D=127'
 
 
 @bot.message_handler(commands=['start'])
@@ -25,31 +28,47 @@ def start_message(message):
     markup.add(telebot.types.InlineKeyboardButton(
         text='Кукуруза', callback_data=7))
 
-    if message.chat.type != 'private':
+    if message.chat.type == 'private':
         bot.send_message(message.chat.id, '<b>Добрый день сегодня цены на зерно следующие:</b> \n',
                          parse_mode='HTML', reply_markup=markup)
 
 
 @bot.callback_query_handler(func=lambda call: True)
 def query_handler(call):
+    markup = telebot.types.InlineKeyboardMarkup()
+    markup.row(telebot.types.InlineKeyboardButton(text='Max и Min', callback_data=10),
+               (telebot.types.InlineKeyboardButton(text='График цен', callback_data=11)))
+
     bot.answer_callback_query(
         callback_query_id=call.id, text='Ожидайте идёт подготовка цен!')
-    answer = ''
     if call.data == '3':
-        answer = 'Цена на Пшеницу {}'.format(now.strftime('%d %B'))
+        bot.send_message(call.message.chat.id, 'New message')
     elif call.data == '4':
-        answer = 'Цена на Семечка {}'.format(
-            "без НДС 15.45 руб/кг, с НДС +10%")
+        bot.send_message(call.message.chat.id, 'New message')
     elif call.data == '5':
-        answer = 'Цена на Горох'
+        bot.send_message(call.message.chat.id, 'New message')
     elif call.data == '6':
-        answer = 'Цена на ячмен'
+        bot.send_message(call.message.chat.id, 'New message')
     elif call.data == '7':
-        answer = 'Цена на Кукурузу'
-    bot.send_message(call.message.chat.id, answer)
+        bot.send_message(call.message.chat.id, 'New message')
+    elif call.data == '10':
+        bot.send_message(call.message.chat.id, 'New message')
+    elif call.data == '11':
+        bot.send_message(call.message.chat.id, 'New message')
     bot.edit_message_reply_markup(
         call.message.chat.id, call.message.message_id)
 
+
+@bot.callback_query_handler(func=lambda call: True)
+def query_handler(call):
+        bot.answer_callback_query(
+        callback_query_id=call.id, text='Ожидайте идёт подготовка цен!')
+    if call.data == '12':
+        bot.send_message(call.message.chat.id, 'New message')
+    elif call.data == '13':
+        bot.send_message(call.message.chat.id, 'New message')
+    bot.edit_message_reply_markup(
+        call.message.chat.id, call.message.message_id)
 
 try:
     bot.infinity_polling(True)

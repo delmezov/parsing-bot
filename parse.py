@@ -10,9 +10,6 @@ def get_html(url):
     return r.text
 
 
-web = 'https://rif-rostov.ru/price/?arCrops%5B%5D=127'
-
-
 def getDataByURL(url):
     text = get_html(url)
     soup = BeautifulSoup(text, 'lxml')
@@ -47,48 +44,4 @@ def getDataByURL(url):
     return newDict
 
 
-print(getDataByURL('https://rif-rostov.ru/price/?arCrops%5B%5D=127'))
-
-
-'''
-        stats.append(tag.find('div', {'class': "title"}).text)
-    urls.append('https://www.agroinvestor.ru' + tag.find("a", href=True).get('href'))
-urls = urls[:len(urls)-4]
-
-for i in range(len(stats)):
-    stats[i] = stats[i].strip()
-
-
-for i in range(len(stats)):
-    endContent = {'stats' : stats[i],
-                  'url' : urls[i]}
-    csv_read(endContent)
-
-response.close()
-print(response.status_code)'
-text = get_html(web)
-soup = BeautifulSoup(text, 'lxml')
-
-response = requests.get(url=url, proxies=proxies)
-
-stats = []
-urls = []
-
-for tag in soup.find_all("div","item"):
-    if (tag.find('div', {'class': "title"}) != None):
-        stats.append(tag.find('div', {'class': "title"}).text)
-    urls.append('https://www.agroinvestor.ru' + tag.find("a", href=True).get('href'))
-urls = urls[:len(urls)-4]
-
-for i in range(len(stats)):
-    stats[i] = stats[i].strip()
-
-
-for i in range(len(stats)):
-    endContent = {'stats' : stats[i],
-                  'url' : urls[i]}
-    csv_read(endContent)
-
-response.close()
-print(response.status_code)
-'''
+# print(getDataByURL('https://rif-rostov.ru/price/?arCrops%5B%5D=127'))
