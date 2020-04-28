@@ -40,7 +40,7 @@ def getDataByURL(url):
             if (newDict[nameOrg] == []):
                 newDict.pop(nameOrg, None)
             
-    return newDict
+    return dataToString(newDict)
 
 #print(list(getDataByURL("https://rif-rostov.ru/price/?arCrops%5B%5D=127").keys())[0])
 
