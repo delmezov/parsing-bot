@@ -35,13 +35,8 @@ def query_handler(call):
     start = telebot.types.ReplyKeyboardMarkup(True, True).row('/start')
 
     markup = telebot.types.InlineKeyboardMarkup()
-<<<<<<< HEAD
-    markup.row(telebot.types.InlineKeyboardButton(text='Max и Min', callback_data=10),
-               (telebot.types.InlineKeyboardButton(text='График цен', callback_data=11)))
-=======
     markup.row(telebot.types.InlineKeyboardButton(text='max и min цена', callback_data='max_min'),
                (telebot.types.InlineKeyboardButton(text='График цен', callback_data='price_graph')))
->>>>>>> rtv
 
     bot.answer_callback_query(
         callback_query_id=call.id, text='Ожидайте идёт подготовка цен!')
@@ -50,15 +45,6 @@ def query_handler(call):
                          getDataByURL(config.filter_params_dict[call.data], call.data), parse_mode='HTML', reply_markup=start)
     elif call.data == 'Пшеница':
         bot.send_message(call.message.chat.id,
-<<<<<<< HEAD
-                         getDataByURL(config.filter_params_dict[call.data]), parse_mode='HTML', reply_markup=start)
-    elif call.data == 'Семечка':
-        bot.send_message(call.message.chat.id, 'New message')
-    elif call.data == 'Горох':
-        bot.send_message(call.message.chat.id, 'New message')
-    elif call.data == 'Кукуруза':
-        bot.send_message(call.message.chat.id, 'New message')
-=======
                          getDataByURL(config.filter_params_dict[call.data], call.data), parse_mode='HTML', reply_markup=markup)
     elif call.data == 'Семечка':
         bot.send_message(call.message.chat.id, 'Отсутствует')
@@ -72,7 +58,6 @@ def query_handler(call):
     elif call.data == 'price_graph':
         bot.send_message(call.message.chat.id,
                          'График цен за последнию неделю', reply_markup=start)
->>>>>>> rtv
     bot.edit_message_reply_markup(
         call.message.chat.id, call.message.message_id)
 
