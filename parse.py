@@ -41,6 +41,11 @@ def getDataByURL(url, product_name):
                     u'\xa0', u' '), prices[i].replace(u'\xa0', u' ')])
             if (newDict[nameOrg] == []):
                 newDict.pop(nameOrg, None)
+<<<<<<< HEAD
+=======
+            
+    return newDict
+>>>>>>> algorithm
 
     return dataToString(newDict, product_name)
 
@@ -56,3 +61,77 @@ def dataToString(dict, product_name):
             else:
                 temp_str += value[1] + "\n\n"
     return temp_str
+<<<<<<< HEAD
+=======
+
+def strConvert(str):
+    try: 
+        return float(str[:str.index(" ")].replace(",","."))
+    except ValueError:
+        return 0
+
+def getMaxPrice(dict):
+
+    returnStr = ""
+    finalString = []
+    newDict = {}
+    classes = []
+    ports = []
+    prices = []
+    
+    for (key,values) in dict.items():
+        for value in values:
+            ports.append(key)
+            classes.append(value[0])
+            prices.append(strConvert(value[2]))
+            if strConvert(value[2]) != 0:
+                try:
+                    newDict[value[0]].append(strConvert(value[2]))
+                except KeyError:
+                    newDict[value[0]] = [strConvert(value[2])]
+            
+    for key in newDict.keys():
+        newDict[key] = [max(newDict[key]),min(newDict[key])]
+
+    for i in range(len(classes)):
+        for (keys, values) in newDict.items():
+            if (keys == classes[i]) and (values[0] == prices[i]):
+                finalString.append("{CLASS}, Максимальная цена - {MAX} р, {PORT}\n".format(
+                    PORT = ports[i],
+                    CLASS = keys,
+                    MAX = values[1]
+                ))
+            if (keys == classes[i]) and (values[1] == prices[i]):
+                finalString.append("{CLASS}, Минимальная цена - {MIN} р, {PORT}\n".format(
+                    PORT = ports[i],
+                    CLASS = keys,
+                    MIN = values[1]
+                ))
+
+    for el in sorted(finalString):
+        returnStr += el + "\n"
+
+    return returnStr
+
+
+
+#print(getMaxPrice(getDataByURL("https://rif-rostov.ru/price/?arCrops%5B%5D=127")))
+
+'''
+print("ququ")
+text = get_html("https://zerno-trade.biz")
+soup = BeautifulSoup(text, 'lxml')
+
+newDict = {}
+table = soup.find("table", { "class" : "p1-table" })
+
+for el in table.find_all("th"):
+    newDict[el.text.strip()] = []
+
+#for row in table.find_all("tr"):
+    
+
+
+print(mas)
+'''
+>>>>>>> algorithm
