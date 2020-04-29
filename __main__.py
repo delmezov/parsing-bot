@@ -3,7 +3,7 @@ import re
 import sys
 import config
 import datetime
-from parse import getDataByURL
+import parse
 from telebot import types
 from telebot import apihelper
 
@@ -41,11 +41,14 @@ def query_handler(call):
     bot.answer_callback_query(
         callback_query_id=call.id, text='Ожидайте идёт подготовка цен!')
     if call.data == 'Ячмень':
+        markup.row(telebot.types.InlineKeyboardButton(text='max и min цена', callback_data= call_data + 'max')
         bot.send_message(call.message.chat.id,
-                         getDataByURL(config.filter_params_dict[call.data], call.data), parse_mode='HTML', reply_markup=start)
+                         parse.dataToString(parse.getDataByURL(
+                             config.filter_params_dict[call.data]), call.data), parse_mode='HTML', reply_markup=markup)
     elif call.data == 'Пшеница':
         bot.send_message(call.message.chat.id,
-                         getDataByURL(config.filter_params_dict[call.data], call.data), parse_mode='HTML', reply_markup=markup)
+                         parse.dataToString(parse.getDataByURL(
+                             config.filter_params_dict[call.data]), call.data), parse_mode='HTML', reply_markup=markup)
     elif call.data == 'Семечка':
         bot.send_message(call.message.chat.id, 'Отсутствует')
     elif call.data == 'Горох':
@@ -54,7 +57,8 @@ def query_handler(call):
         bot.send_message(call.message.chat.id, 'Отсутствует')
     elif call.data == 'max_min':
         bot.send_message(call.message.chat.id,
-                         'Максимальная цена - \nМинимальная цена - ', reply_markup=start)
+                         parse.getMaxPrice(parse.getDataByURL(
+                             config.filter_params_dict[call.data])), parse_mode='HTML')
     elif call.data == 'price_graph':
         bot.send_message(call.message.chat.id,
                          'График цен за последнию неделю', reply_markup=start)
