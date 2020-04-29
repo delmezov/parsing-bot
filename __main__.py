@@ -9,7 +9,7 @@ from telebot import apihelper
 
 bot = telebot.TeleBot(config.token)
 now = datetime.datetime.now()
-
+buf_ = ""
 print("Connected!")
 
 
@@ -37,18 +37,19 @@ def query_handler(call):
     markup = telebot.types.InlineKeyboardMarkup()
     markup.row(telebot.types.InlineKeyboardButton(text='max и min цена', callback_data='max_min'),
                (telebot.types.InlineKeyboardButton(text='График цен', callback_data='price_graph')))
-
+    global buf_
     bot.answer_callback_query(
         callback_query_id=call.id, text='Ожидайте идёт подготовка цен!')
     if call.data == 'Ячмень':
-        markup.row(telebot.types.InlineKeyboardButton(text='max и min цена', callback_data= call_data + 'max')
         bot.send_message(call.message.chat.id,
                          parse.dataToString(parse.getDataByURL(
                              config.filter_params_dict[call.data]), call.data), parse_mode='HTML', reply_markup=markup)
+        buf_ = 'Ячмень'
     elif call.data == 'Пшеница':
         bot.send_message(call.message.chat.id,
                          parse.dataToString(parse.getDataByURL(
                              config.filter_params_dict[call.data]), call.data), parse_mode='HTML', reply_markup=markup)
+        buf_ = 'Пшеница'   
     elif call.data == 'Семечка':
         bot.send_message(call.message.chat.id, 'Отсутствует')
     elif call.data == 'Горох':
@@ -56,9 +57,11 @@ def query_handler(call):
     elif call.data == 'Кукуруза':
         bot.send_message(call.message.chat.id, 'Отсутствует')
     elif call.data == 'max_min':
-        bot.send_message(call.message.chat.id,
-                         parse.getMaxPrice(parse.getDataByURL(
-                             config.filter_params_dict[call.data])), parse_mode='HTML')
+        try:
+            bot.send_message(call.message.chat.id, 
+                parse.getMaxPrice(parse.getDataByURL(config.filter_params_dict[buf_])), parse_mode='HTML', reply_markup=start)
+        except KeyError:
+            bot.send_message(call.message.chat.id, "ERROR", reply_markup=start)
     elif call.data == 'price_graph':
         bot.send_message(call.message.chat.id,
                          'График цен за последнию неделю', reply_markup=start)
